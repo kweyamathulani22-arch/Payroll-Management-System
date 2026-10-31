@@ -4,6 +4,8 @@
  */
 package payrollSystem;
 
+
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -81,7 +83,8 @@ public class Reports extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(139, 0, 0));
 
-        home.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        home.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        home.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/MenuiCon.jpg.jpeg"))); // NOI18N
         home.setText("Home");
         home.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -184,6 +187,7 @@ public class Reports extends javax.swing.JFrame {
         jScrollPane2.setViewportView(individualPayrollTable);
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/searchIcon2.png"))); // NOI18N
         jLabel5.setText("Search Individual:");
 
         individualSearchField.addActionListener(new java.awt.event.ActionListener() {
@@ -344,8 +348,9 @@ public class Reports extends javax.swing.JFrame {
 
     private void ExportEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExportEmployeeActionPerformed
         // save all my employees in a CSV file
-        exportToCsv("SELECT e.employee_id AS employee_id, e.first_name, e.last_name, e.email, e.phone, "
-                + "d.name AS department, e.hourly_rate, IF(e.is_active = 1, 'Active', 'Inactive') AS status "
+        exportToCsv("SELECT e.employee_id AS employee_id, e.first_name, e.last_name, e.gender, e.date_of_birth, e.email, "
+                + "e.phone, e.job_title, d.name AS department, e.working_status, e.address, e.post_code, e.hourly_rate, "
+                + "IF(e.is_active = 1, 'Active', 'Inactive') AS status "
                 + "FROM employees e JOIN departments d ON d.department_id = e.department_id AND d.owner_id = e.owner_id "
                 + "WHERE e.owner_id = ? ORDER BY e.employee_id", "employee_records.csv");
     }//GEN-LAST:event_ExportEmployeeActionPerformed
@@ -353,8 +358,8 @@ public class Reports extends javax.swing.JFrame {
     private void ExportPayrollActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExportPayrollActionPerformed
         // save all my payroll records in a CSV file
         exportToCsv("SELECT payroll_id, employee_id, employee_name, department, pay_period, hourly_rate, "
-                + "normal_hours, overtime_hours, overtime_multiplier, normal_pay, overtime_pay, gross_pay, "
-                + "total_deductions, net_pay FROM v_payroll_detail WHERE owner_id = ? "
+                + "normal_hours, overtime_hours, overtime_multiplier, normal_pay, overtime_pay, bonus_pay, gross_pay, "
+                + "total_deductions, net_pay, payment_status, paid_at FROM v_payroll_detail WHERE owner_id = ? "
                 + "ORDER BY pay_year, pay_month, employee_name", "payroll_records.csv");
     }//GEN-LAST:event_ExportPayrollActionPerformed
 

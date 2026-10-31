@@ -18,6 +18,8 @@ import java.util.regex.Pattern;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+
+
 // This class does all the talking to the MySQL database, so the screens
 // (JFrames) do not need to know how the connection works.
 // IMPORTANT: every query uses currentUserId (the person who logged in),
@@ -298,6 +300,13 @@ public class Database {
                     html.append("<td>Date issued: ").append(issued).append("</td></tr>");
                     html.append("<tr><td>Department: ").append(Util.html(rs.getString("department"))).append("</td>");
                     html.append("<td>Currency: ").append(Util.html(s.currency)).append("</td></tr>");
+                    // payment status: Paid (with the date) or Pending
+                    String paidAt = rs.getString("paid_at");
+                    html.append("<tr><td>&nbsp;</td><td>Payment status: <b>").append(rs.getString("payment_status")).append("</b>");
+                    if (paidAt != null) {
+                        html.append(" (").append(paidAt.length() > 10 ? paidAt.substring(0, 10) : paidAt).append(")");
+                    }
+                    html.append("</td></tr>");
                     html.append("</table><br>");
 
                     // 3. earnings table
@@ -311,6 +320,11 @@ public class Database {
                     html.append(Util.plain(rs.getBigDecimal("overtime_hours"))).append("</td><td align='right'>");
                     html.append(Util.money(otRate)).append("</td><td align='right'>");
                     html.append(Util.money(rs.getBigDecimal("overtime_pay"))).append("</td></tr>");
+                    // a bonus row is only shown when there is a bonus
+                    if (rs.getBigDecimal("bonus_pay").signum() > 0) {
+                        html.append("<tr><td>Bonus &amp; incentives</td><td align='right'>-</td><td align='right'>-</td>");
+                        html.append("<td align='right'>").append(Util.money(rs.getBigDecimal("bonus_pay"))).append("</td></tr>");
+                    }
                     html.append("<tr bgcolor='#F7F7F7'><td colspan='3'><b>GROSS PAY</b></td><td align='right'><b>");
                     html.append(Util.money(rs.getBigDecimal("gross_pay"))).append("</b></td></tr>");
                     html.append("</table><br>");
