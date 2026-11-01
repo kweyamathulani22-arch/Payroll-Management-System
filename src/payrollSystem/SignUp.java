@@ -4,6 +4,7 @@
  */
 package payrollSystem;
 
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,6 +22,7 @@ public class SignUp extends javax.swing.JFrame {
      */
     public SignUp() {
         initComponents();
+        defaultEchoChar = passwordSignUp.getEchoChar();   // remember the normal dot so we can put it back
         // keep the form in the middle of the window
         Util.fitScreen(this, false);
     }
@@ -222,25 +224,18 @@ public class SignUp extends javax.swing.JFrame {
     }//GEN-LAST:event_SignUpActionPerformed
 
     private void showPasswordCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showPasswordCheckBoxActionPerformed
-        // TODO add your handling code here:
-        if(showPasswordCheckBox.isSelected()){
-            
-            //Show both password fields
-            passwordSignUp.setEchoChar((char) 0);
-            passwordConfirm.setEchoChar((char) 0);
-        }else{
-            //Hide both Passwords
-            passwordSignUp.setEchoChar('*');
-            passwordSignUp.setEchoChar('*');
-}
-        
+        // the first checkbox shows or hides the Password box (selected = show the letters)
+        passwordSignUp.setEchoChar(showPasswordCheckBox.isSelected() ? (char) 0 : defaultEchoChar);
     }//GEN-LAST:event_showPasswordCheckBoxActionPerformed
 
     private void showPasswordCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showPasswordCheckBox1ActionPerformed
-        // TODO add your handling code here:
+        // the second checkbox shows or hides the Confirm Password box
+        passwordConfirm.setEchoChar(showPasswordCheckBox1.isSelected() ? (char) 0 : defaultEchoChar);
     }//GEN-LAST:event_showPasswordCheckBox1ActionPerformed
 
     // ----------------- my own code (the database part) -----------------
+    private char defaultEchoChar;   // the normal "dot" that hides the password
+
     // checks the form and creates the account (fullName1 is the Full Name box, fullName is the Email box)
     private void register() {
         // get what the user typed

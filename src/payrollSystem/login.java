@@ -4,6 +4,7 @@
  */
 package payrollSystem;
 
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,6 +21,7 @@ public class login extends javax.swing.JFrame {
      */
     public login() {
         initComponents();
+        defaultEchoChar = passwordField.getEchoChar();   // remember the normal dot so we can put it back
         // nobody is logged in while the login screen is open
         Database.currentUserId = 0;
         Database.currentUserName = "";
@@ -249,19 +251,13 @@ public class login extends javax.swing.JFrame {
     }//GEN-LAST:event_signin1ActionPerformed
 
     private void showPasswordCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showPasswordCheckBoxActionPerformed
-        // TODO add your handling code here:
-         if(showPasswordCheckBox.isSelected()){
-            
-            //Show both password fields
-            passwordField.setEchoChar((char) 0);
-        }else{
-            //Hide both Passwords
-            passwordField.setEchoChar('*');
-         }
-        
+        // the checkbox shows or hides the password (selected = show the letters)
+        passwordField.setEchoChar(showPasswordCheckBox.isSelected() ? (char) 0 : defaultEchoChar);
     }//GEN-LAST:event_showPasswordCheckBoxActionPerformed
 
     // ----------------- my own code (the database part) -----------------
+    private char defaultEchoChar;   // the normal "dot" that hides the password
+
     // checks the email and password and opens the menu if they are correct
     private void doLogin() {
         // get what the user typed

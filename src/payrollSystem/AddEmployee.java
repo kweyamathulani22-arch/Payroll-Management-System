@@ -10,6 +10,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeParseException;
+import javax.swing.DefaultComboBoxModel;
 
 /**
  *
@@ -26,6 +30,49 @@ public class AddEmployee extends javax.swing.JFrame {
         if (!Database.requireLogin(this)) {
             return;
         }
+        // the gender box only had Male, Female and two empty items, so I set the items here
+        genderCombo.setModel(new DefaultComboBoxModel<String>(new String[] {"Male", "Female", "Other"}));
+        dateOfBirth.setToolTipText("Type the date like this: 1995-03-27 (or 27/03/1995)");
+        workingStatus.setToolTipText("For example: Full-time, Part-time, Contract");
+
+        // these buttons and boxes have no handler in the designer, so I add the listeners here
+        searchEmployee.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                findAndLoad();            // Enter in the search box
+            }
+        });
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                updateEmployee();         // the Update button
+            }
+        });
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                clearForm();              // the Clear button
+            }
+        });
+        // Enter moves to the next box
+        jobTittle.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                addressField.requestFocusInWindow();
+            }
+        });
+        addressField.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                postCode.requestFocusInWindow();
+            }
+        });
+        postCode.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                saveNewEmployee();        // Enter in the last box
+            }
+        });
         // keep the form in the middle of the window and open it maximised
         Util.fitScreen(this, true);
     }
@@ -60,6 +107,22 @@ public class AddEmployee extends javax.swing.JFrame {
         cancel = new javax.swing.JButton();
         add = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
+        searchEmployee = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        genderCombo = new javax.swing.JComboBox<>();
+        jLabel10 = new javax.swing.JLabel();
+        dateOfBirth = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        workingStatus = new javax.swing.JTextField();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jLabel12 = new javax.swing.JLabel();
+        jobTittle = new javax.swing.JTextField();
+        homeAddress = new javax.swing.JLabel();
+        addressField = new javax.swing.JTextField();
+        jLabel13 = new javax.swing.JLabel();
+        postCode = new javax.swing.JTextField();
 
         jTextField1.setText("jTextField1");
 
@@ -123,7 +186,7 @@ public class AddEmployee extends javax.swing.JFrame {
         email.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         phone.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        phone.setText("Phone");
+        phone.setText("Contact");
 
         Phonefield.setBackground(new java.awt.Color(204, 204, 204));
         Phonefield.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -146,7 +209,8 @@ public class AddEmployee extends javax.swing.JFrame {
 
         cancel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         cancel.setForeground(new java.awt.Color(139, 0, 0));
-        cancel.setText("Cancel");
+        cancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/MenuiCon.jpg.jpeg"))); // NOI18N
+        cancel.setText("Menu");
         cancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cancelActionPerformed(evt);
@@ -176,121 +240,238 @@ public class AddEmployee extends javax.swing.JFrame {
             .addGap(0, 25, Short.MAX_VALUE)
         );
 
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/searchIcon2.png"))); // NOI18N
+        jLabel7.setText("Search Emloyee:");
+
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel9.setText("Gender");
+
+        genderCombo.setBackground(new java.awt.Color(204, 204, 204));
+        genderCombo.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        genderCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Male", "Female", " ", " " }));
+        genderCombo.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel10.setText("Date of Birth");
+
+        dateOfBirth.setBackground(new java.awt.Color(204, 204, 204));
+        dateOfBirth.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel11.setText("Status");
+
+        workingStatus.setBackground(new java.awt.Color(204, 204, 204));
+        workingStatus.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        workingStatus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                workingStatusActionPerformed(evt);
+            }
+        });
+
+        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButton2.setText("Update");
+
+        jButton3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButton3.setText("Clear");
+
+        jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel12.setText("Job Title");
+
+        jobTittle.setBackground(new java.awt.Color(204, 204, 204));
+        jobTittle.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        homeAddress.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        homeAddress.setText("Home Address");
+
+        addressField.setBackground(new java.awt.Color(204, 204, 204));
+        addressField.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel13.setText("Post Code");
+
+        postCode.setBackground(new java.awt.Color(204, 204, 204));
+        postCode.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(106, Short.MAX_VALUE)
-                .addComponent(cancel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(add)
-                .addGap(113, 113, 113))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(181, 181, 181)
-                                .addComponent(phone))
-                            .addComponent(jLabel8)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(department, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
-                                        .addComponent(email, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(firstName, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(employeeID, javax.swing.GroupLayout.Alignment.LEADING)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                        .addGap(6, 6, 6)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel5))
-                                        .addGap(24, 24, 24))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(hourlyRate, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(lastName)
-                                            .addComponent(Phonefield, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE))))))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addComponent(jLabel7)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(searchEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                        .addContainerGap()
+                                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(employeeID))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addContainerGap()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel5)
+                                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(firstName)
+                                            .addComponent(Phonefield, javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(genderCombo, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(dateOfBirth, javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(email, javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(lastName, javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(department, javax.swing.GroupLayout.Alignment.LEADING))))
+                                .addGap(30, 30, 30)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jLabel11)
+                                        .addComponent(jLabel12)
+                                        .addComponent(homeAddress)
+                                        .addComponent(jLabel13))))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel10)
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(phone)
+                                    .addComponent(jLabel8))))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(hourlyRate, javax.swing.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE)
+                                    .addComponent(workingStatus)
+                                    .addComponent(jobTittle)))
+                            .addComponent(addressField)
+                            .addComponent(postCode))
+                        .addGap(8, 8, 8)))
                 .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(add)
+                .addGap(18, 18, 18)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(cancel)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(employeeID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(hourlyRate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel7)
+                                    .addComponent(searchEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(46, 46, 46))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(hourlyRate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(employeeID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(firstName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel11)
+                    .addComponent(workingStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Phonefield, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel12)
+                    .addComponent(jobTittle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(genderCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(homeAddress)
+                    .addComponent(addressField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(dateOfBirth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel13)
+                    .addComponent(postCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(phone)
                     .addComponent(lastName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(phone))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Phonefield, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel8)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(department, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                    .addComponent(jLabel8)
+                    .addComponent(department, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(53, 53, 53)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cancel)
-                    .addComponent(add))
-                .addGap(52, 52, 52))
+                    .addComponent(add, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cancel))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void employeeIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_employeeIDActionPerformed
+    private void workingStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_workingStatusActionPerformed
         // Enter moves to the next box
-        firstName.requestFocusInWindow();
-    }//GEN-LAST:event_employeeIDActionPerformed
+        jobTittle.requestFocusInWindow();
+    }//GEN-LAST:event_workingStatusActionPerformed
 
     private void addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActionPerformed
-        // the Add button
+        // the Add Employee button
         saveNewEmployee();
     }//GEN-LAST:event_addActionPerformed
 
     private void cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelActionPerformed
-        // go back to the employees list
-        new employees().setVisible(true);
+        // the button now says Menu: go back to the menu
+        new Menu().setVisible(true);
         dispose();
     }//GEN-LAST:event_cancelActionPerformed
 
@@ -300,18 +481,13 @@ public class AddEmployee extends javax.swing.JFrame {
     }//GEN-LAST:event_departmentActionPerformed
 
     private void PhonefieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PhonefieldActionPerformed
-        // Enter moves to the next box
-        department.requestFocusInWindow();
+        // this is the Last Name box: Enter moves to the Date of Birth box
+        dateOfBirth.requestFocusInWindow();
     }//GEN-LAST:event_PhonefieldActionPerformed
 
-    private void hourlyRateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hourlyRateActionPerformed
-        // Enter in the last box saves the employee
-        saveNewEmployee();
-    }//GEN-LAST:event_hourlyRateActionPerformed
-
     private void lastNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lastNameActionPerformed
-        // Enter moves to the next box
-        email.requestFocusInWindow();
+        // this is the Contact box: Enter moves to the Department box
+        department.requestFocusInWindow();
     }//GEN-LAST:event_lastNameActionPerformed
 
     private void firstNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_firstNameActionPerformed
@@ -319,76 +495,170 @@ public class AddEmployee extends javax.swing.JFrame {
         lastName.requestFocusInWindow();
     }//GEN-LAST:event_firstNameActionPerformed
 
+    private void hourlyRateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hourlyRateActionPerformed
+        // Enter moves to the next box
+        workingStatus.requestFocusInWindow();
+    }//GEN-LAST:event_hourlyRateActionPerformed
+
+    private void employeeIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_employeeIDActionPerformed
+        // Enter moves to the next box
+        firstName.requestFocusInWindow();
+    }//GEN-LAST:event_employeeIDActionPerformed
+
     // ----------------- my own code (the database part) -----------------
-    // checks every box and then saves the new employee (the department is created if it is new)
-    private void saveNewEmployee() {
-        // get what the user typed
+    // NOTE: two boxes have names that do not match their labels in the designer:
+    //   the "Last Name" box is called  Phonefield     and the "Contact" box is called  lastName
+    // I use them by what they show on the screen, so the code below looks swapped on purpose.
+    private int loadedEmployeeId = -1;   // id of the employee loaded with the search box (-1 = nobody)
+
+    // a small class that holds everything typed in the form after it was checked
+    private static class FormData {
+        int id;
+        String first, last, mail, phone, gender, jobTitle, address, postCode, status, department;
+        LocalDate birthDate;
+        BigDecimal rate;
+    }
+
+    // turns the text of the date of birth box into a date. It gives null if the text is not a real date.
+    private LocalDate parseBirthDate(String text) {
+        String t = text.trim();
+        try {
+            if (t.matches("\\d{4}-\\d{2}-\\d{2}")) {
+                return LocalDate.parse(t);                  // 1995-03-27
+            }
+            if (t.matches("\\d{2}/\\d{2}/\\d{4}")) {
+                // 27/03/1995 -> cut it in pieces and build 1995-03-27
+                return LocalDate.parse(t.substring(6) + "-" + t.substring(3, 5) + "-" + t.substring(0, 2));
+            }
+        } catch (DateTimeParseException ex) {
+            // for example 31 February: not a real date
+        }
+        return null;
+    }
+
+    // Reads and checks every box (with regular expressions from our lectures).
+    // Gives null after showing an error message if something is wrong.
+    private FormData readForm(boolean forNewEmployee) {
+        FormData d = new FormData();
         String idText = employeeID.getText().trim();
-        String first = firstName.getText().trim();
-        String last = lastName.getText().trim();
-        String mail = email.getText().trim();
+        d.first = firstName.getText().trim();
+        d.last = Phonefield.getText().trim();   // the "Last Name" box is called Phonefield in the designer
+        d.mail = email.getText().trim();
         // remove spaces, dashes and brackets from the phone number
-        String phone = Phonefield.getText().trim().replaceAll("[\\s\\-()]", "");
-        String dept = department.getText().trim();
+        d.phone = lastName.getText().trim().replaceAll("[\\s\\-()]", "");   // the "Contact" box is called lastName in the designer
+        d.department = department.getText().trim();
+        d.gender = String.valueOf(genderCombo.getSelectedItem());
+        d.jobTitle = jobTittle.getText().trim();
+        d.address = addressField.getText().trim();
+        d.postCode = postCode.getText().trim();
+        d.status = workingStatus.getText().trim();
         // a name starts with a letter and can have letters, spaces, ' and -
         String namePattern = "\\p{L}[\\p{L} '\\-]{0,49}";
 
-        // ----- validation (regular expressions from our lectures) -----
-        if (!idText.matches("[1-9]\\d{0,8}")) {
-            Util.error(this, "Employee ID must be a whole number (digits only, no leading zero).");
-            return;
+        if (forNewEmployee) {
+            if (!idText.matches("[1-9]\\d{0,8}")) {
+                Util.error(this, "Employee ID must be a whole number (digits only, no leading zero).");
+                return null;
+            }
+            d.id = Integer.parseInt(idText);
+        } else {
+            d.id = loadedEmployeeId;   // when updating, the id does not change
         }
-        if (!first.matches(namePattern) || !last.matches(namePattern)) {
+        if (!d.first.matches(namePattern) || !d.last.matches(namePattern)) {
             Util.error(this, "First and last name must contain letters only (spaces, ' and - are allowed).");
-            return;
+            return null;
         }
-        if (!Util.isEmail(mail) || mail.length() > 120) {
+        d.birthDate = parseBirthDate(dateOfBirth.getText());
+        if (d.birthDate == null) {
+            Util.error(this, "Type the date of birth like 1995-03-27 (or 27/03/1995).");
+            return null;
+        }
+        int age = Period.between(d.birthDate, LocalDate.now()).getYears();
+        if (age < 15 || age > 100) {
+            Util.error(this, "The employee must be between 15 and 100 years old.");
+            return null;
+        }
+        if (!Util.isEmail(d.mail) || d.mail.length() > 120) {
             Util.error(this, "Please enter a valid email address.");
-            return;
+            return null;
         }
         // South African number: 0 or +27 followed by 9 digits
-        if (!phone.matches("(\\+27|0)\\d{9}")) {
+        if (!d.phone.matches("(\\+27|0)\\d{9}")) {
             Util.error(this, "Phone must be a South African number, e.g. 0821234567 or +27821234567.");
-            return;
+            return null;
         }
-        if (dept.length() < 2 || dept.length() > 80) {
+        if (d.department.length() < 2 || d.department.length() > 80) {
             Util.error(this, "Please enter a department (2 to 80 characters).");
-            return;
+            return null;
         }
-        BigDecimal rate;
+        if (!d.status.matches("[A-Za-z][A-Za-z \\-]{1,29}")) {
+            Util.error(this, "Status must be words like Full-time, Part-time or Contract.");
+            return null;
+        }
+        if (!d.jobTitle.matches("[\\p{L}0-9][\\p{L}0-9 &.,'/\\-]{1,59}")) {
+            Util.error(this, "Please enter the job title (2 to 60 characters).");
+            return null;
+        }
+        if (d.address.length() < 5 || d.address.length() > 150) {
+            Util.error(this, "Please enter the home address (5 to 150 characters).");
+            return null;
+        }
+        if (!d.postCode.matches("\\d{4}")) {
+            Util.error(this, "The post code must be 4 digits.");
+            return null;
+        }
         try {
-            rate = Util.parseDecimal(hourlyRate.getText()).setScale(2, RoundingMode.HALF_UP);
+            d.rate = Util.parseDecimal(hourlyRate.getText()).setScale(2, RoundingMode.HALF_UP);
         } catch (NumberFormatException ex) {
             Util.error(this, "Hourly rate must be a number, e.g. 150.00");
-            return;
+            return null;
         }
-        if (rate.compareTo(BigDecimal.ZERO) <= 0 || rate.compareTo(new BigDecimal("100000")) > 0) {
+        if (d.rate.compareTo(BigDecimal.ZERO) <= 0 || d.rate.compareTo(new BigDecimal("100000")) > 0) {
             Util.error(this, "Hourly rate must be more than 0 and not more than 100 000.");
+            return null;
+        }
+        return d;
+    }
+
+    // the Add Employee button: checks the form and saves a NEW employee (the department is created if it is new)
+    private void saveNewEmployee() {
+        if (loadedEmployeeId > 0) {
+            Util.error(this, "An employee is loaded for editing. Press Update to save the changes,\n"
+                    + "or press Clear first to add a new employee.");
             return;
         }
-
-        // ----- save in the database -----
-        String sql = "INSERT INTO employees (owner_id, employee_id, first_name, last_name, email, phone, "
-                + "department_id, hourly_rate) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        FormData d = readForm(true);
+        if (d == null) {
+            return;
+        }
+        String sql = "INSERT INTO employees (owner_id, employee_id, first_name, last_name, email, phone, gender, "
+                + "date_of_birth, job_title, address, post_code, working_status, department_id, hourly_rate) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection con = Database.getConnection()) {
             con.setAutoCommit(false);   // department and employee are saved together
             try (PreparedStatement ps = con.prepareStatement(sql)) {
-                int deptId = Database.findOrCreateDepartment(con, dept);
+                int deptId = Database.findOrCreateDepartment(con, d.department);
                 ps.setInt(1, Database.currentUserId);   // this employee belongs to the logged-in user
-                ps.setInt(2, Integer.parseInt(idText));
-                ps.setString(3, first);
-                ps.setString(4, last);
-                ps.setString(5, mail);
-                ps.setString(6, phone);
-                ps.setInt(7, deptId);
-                ps.setBigDecimal(8, rate);
+                ps.setInt(2, d.id);
+                ps.setString(3, d.first);
+                ps.setString(4, d.last);
+                ps.setString(5, d.mail);
+                ps.setString(6, d.phone);
+                ps.setString(7, d.gender);
+                ps.setDate(8, java.sql.Date.valueOf(d.birthDate));
+                ps.setString(9, d.jobTitle);
+                ps.setString(10, d.address);
+                ps.setString(11, d.postCode);
+                ps.setString(12, d.status);
+                ps.setInt(13, deptId);
+                ps.setBigDecimal(14, d.rate);
                 ps.executeUpdate();
                 con.commit();
             } catch (SQLException ex) {
                 con.rollback();   // undo if something went wrong
                 throw ex;
             }
-            Util.info(this, first + " " + last + " was added.");
+            Util.info(this, d.first + " " + d.last + " was added.");
             clearForm();
         } catch (SQLException ex) {
             // 1062 = duplicate value: either the ID or the email is already used
@@ -396,22 +666,125 @@ public class AddEmployee extends javax.swing.JFrame {
                 String m = String.valueOf(ex.getMessage()).toLowerCase();
                 Util.error(this, m.contains("email")
                         ? "An employee with this email address already exists."
-                        : "An employee with ID " + idText + " already exists.");
+                        : "An employee with ID " + d.id + " already exists.");
             } else {
                 Util.dbError(this, ex);
             }
         }
     }
 
-    // empties all the boxes so the next employee can be typed in
+    // the search box: finds one of MY employees (by id or name) and puts all the details in the form
+    private void findAndLoad() {
+        String text = searchEmployee.getText().trim();
+        if (text.isEmpty()) {
+            Util.error(this, "Type an employee ID or name in the search box first.");
+            return;
+        }
+        try {
+            Database.EmployeeInfo found = Database.chooseEmployee(this, text, false);
+            if (found == null) {
+                Util.error(this, "No employee found for \"" + text + "\".");
+                return;
+            }
+            String sql = "SELECT e.first_name, e.last_name, e.gender, e.date_of_birth, e.email, e.phone, e.job_title, "
+                    + "e.address, e.post_code, e.working_status, e.hourly_rate, d.name "
+                    + "FROM employees e JOIN departments d ON d.department_id = e.department_id AND d.owner_id = e.owner_id "
+                    + "WHERE e.owner_id = ? AND e.employee_id = ?";
+            try (Connection con = Database.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+                ps.setInt(1, Database.currentUserId);
+                ps.setInt(2, found.id);
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (rs.next()) {
+                        // put every value in its box
+                        employeeID.setText(String.valueOf(found.id));
+                        firstName.setText(rs.getString(1));
+                        Phonefield.setText(rs.getString(2));   // "Last Name" box
+                        genderCombo.setSelectedItem(rs.getString(3));
+                        dateOfBirth.setText(rs.getString(4));
+                        email.setText(rs.getString(5));
+                        lastName.setText(rs.getString(6));     // "Contact" box
+                        jobTittle.setText(rs.getString(7));
+                        addressField.setText(rs.getString(8));
+                        postCode.setText(rs.getString(9));
+                        workingStatus.setText(rs.getString(10));
+                        hourlyRate.setText(Util.plain(rs.getBigDecimal(11)));
+                        department.setText(rs.getString(12));
+                        loadedEmployeeId = found.id;
+                        employeeID.setEditable(false);   // the id of an employee can not be changed
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            Util.dbError(this, ex);
+        }
+    }
+
+    // the Update button: saves the changes of the employee that was loaded with the search box
+    private void updateEmployee() {
+        if (loadedEmployeeId < 0) {
+            Util.error(this, "Search for an employee first, change the details, then press Update.");
+            return;
+        }
+        FormData d = readForm(false);
+        if (d == null) {
+            return;
+        }
+        // is_active = 1 also brings back an employee that was deleted (made inactive) before
+        String sql = "UPDATE employees SET first_name = ?, last_name = ?, email = ?, phone = ?, gender = ?, "
+                + "date_of_birth = ?, job_title = ?, address = ?, post_code = ?, working_status = ?, "
+                + "department_id = ?, hourly_rate = ?, is_active = 1 WHERE owner_id = ? AND employee_id = ?";
+        try (Connection con = Database.getConnection()) {
+            con.setAutoCommit(false);
+            try (PreparedStatement ps = con.prepareStatement(sql)) {
+                int deptId = Database.findOrCreateDepartment(con, d.department);
+                ps.setString(1, d.first);
+                ps.setString(2, d.last);
+                ps.setString(3, d.mail);
+                ps.setString(4, d.phone);
+                ps.setString(5, d.gender);
+                ps.setDate(6, java.sql.Date.valueOf(d.birthDate));
+                ps.setString(7, d.jobTitle);
+                ps.setString(8, d.address);
+                ps.setString(9, d.postCode);
+                ps.setString(10, d.status);
+                ps.setInt(11, deptId);
+                ps.setBigDecimal(12, d.rate);
+                ps.setInt(13, Database.currentUserId);
+                ps.setInt(14, d.id);
+                ps.executeUpdate();
+                con.commit();
+            } catch (SQLException ex) {
+                con.rollback();
+                throw ex;
+            }
+            Util.info(this, d.first + " " + d.last + " was updated.");
+        } catch (SQLException ex) {
+            if (ex.getErrorCode() == 1062) {
+                Util.error(this, "Another employee already uses this email address.");
+            } else {
+                Util.dbError(this, ex);
+            }
+        }
+    }
+
+    // the Clear button: empties all the boxes so a new employee can be typed in
     private void clearForm() {
+        loadedEmployeeId = -1;
+        employeeID.setEditable(true);
+        searchEmployee.setText("");
         employeeID.setText("");
         firstName.setText("");
         lastName.setText("");
+        genderCombo.setSelectedIndex(0);
+        dateOfBirth.setText("");
         email.setText("");
         Phonefield.setText("");
         department.setText("");
         hourlyRate.setText("");
+        workingStatus.setText("");
+        jobTittle.setText("");
+        addressField.setText("");
+        postCode.setText("");
         employeeID.requestFocusInWindow();
     }
 
@@ -453,24 +826,40 @@ public class AddEmployee extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField Phonefield;
     private javax.swing.JButton add;
+    private javax.swing.JTextField addressField;
     private javax.swing.JButton cancel;
+    private javax.swing.JTextField dateOfBirth;
     private javax.swing.JTextField department;
     private javax.swing.JTextField email;
     private javax.swing.JTextField employeeID;
     private javax.swing.JTextField firstName;
+    private javax.swing.JComboBox<String> genderCombo;
+    private javax.swing.JLabel homeAddress;
     private javax.swing.JTextField hourlyRate;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jobTittle;
     private javax.swing.JTextField lastName;
     private javax.swing.JLabel phone;
+    private javax.swing.JTextField postCode;
+    private javax.swing.JTextField searchEmployee;
+    private javax.swing.JTextField workingStatus;
     // End of variables declaration//GEN-END:variables
 }

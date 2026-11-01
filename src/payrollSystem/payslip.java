@@ -4,6 +4,8 @@
  */
 package payrollSystem;
 
+
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -66,7 +68,8 @@ public class payslip extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(139, 0, 0));
 
-        home.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        home.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        home.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/MenuiCon.jpg.jpeg"))); // NOI18N
         home.setText("Home");
         home.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

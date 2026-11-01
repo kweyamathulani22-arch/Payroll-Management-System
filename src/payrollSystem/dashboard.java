@@ -8,7 +8,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.awt.Color;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.BorderFactory;
+import javax.swing.ListSelectionModel;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -26,7 +33,10 @@ public class dashboard extends javax.swing.JFrame {
         if (!Database.requireLogin(this)) {
             return;
         }
-        loadDashboard();
+        // read the filter choices this user saved last time (object serialization)
+        options = FilterOptions.load(Database.currentUserId);
+        prepareDashboard();   // listeners, colours and read-only boxes
+        loadDashboard();      // get the data from the database and fill the boxes and the table
         // keep the form in the middle of the window and open it maximised
         Util.fitScreen(this, true);
     }
@@ -45,6 +55,8 @@ public class dashboard extends javax.swing.JFrame {
         jDayChooser2 = new com.toedter.calendar.JDayChooser();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         home = new javax.swing.JButton();
@@ -60,6 +72,10 @@ public class dashboard extends javax.swing.JFrame {
         jPanel6 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         totalDeductions = new javax.swing.JTextField();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable3 = new javax.swing.JTable();
+        filter = new javax.swing.JButton();
+        seachEmployee = new javax.swing.JTextField();
 
         jMenu1.setText("jMenu1");
 
@@ -76,6 +92,19 @@ public class dashboard extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable1);
 
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(jTable2);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(139, 0, 0));
@@ -84,7 +113,8 @@ public class dashboard extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Dashboard");
 
-        home.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        home.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        home.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/MenuiCon.jpg.jpeg"))); // NOI18N
         home.setText("Home");
         home.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -123,7 +153,7 @@ public class dashboard extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addGap(27, 27, 27)
                 .addComponent(totalEmployees, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
@@ -148,7 +178,7 @@ public class dashboard extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
                     .addComponent(totalGrossPayroll, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(99, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -218,17 +248,48 @@ public class dashboard extends javax.swing.JFrame {
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
                     .addComponent(totalDeductions, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(82, Short.MAX_VALUE))
+                .addContainerGap(109, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel4)
-                .addGap(18, 18, 18)
+                .addGap(24, 24, 24)
                 .addComponent(totalDeductions, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "Employees", "Salary", "Overtime", "Payment Status", "Bonuses & Incentives"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane3.setViewportView(jTable3);
+
+        filter.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        filter.setText("Filter");
+
+        seachEmployee.setText("search");
+        seachEmployee.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                seachEmployeeMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -239,32 +300,51 @@ public class dashboard extends javax.swing.JFrame {
                     .addComponent(home)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(seachEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(filter))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGap(40, 40, 40)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(207, 207, 207)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 744, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(home, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(home)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12)
+                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(115, Short.MAX_VALUE))
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(45, 45, 45)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(filter)
+                    .addComponent(seachEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -275,7 +355,9 @@ public class dashboard extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -303,67 +385,392 @@ public class dashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_totalNetPayrollActionPerformed
 
+    private void seachEmployeeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_seachEmployeeMouseClicked
+        // the first click in the search box removes the word "search"
+        clearSearchHint();
+    }//GEN-LAST:event_seachEmployeeMouseClicked
+
     // ----------------- my own code (the database part) -----------------
-    // fills the four total boxes (for the latest payroll month) and the "recent payroll" table
-    private void loadDashboard() {
-        // the user must not type in the total boxes
+    private static final String SEARCH_HINT = "search";
+    private List<PayrollEntry> allEntries = new ArrayList<>();    // every employee for the shown month
+    private List<PayrollEntry> shownEntries = new ArrayList<>();  // the rows that are in the table now
+    private FilterOptions options = new FilterOptions();          // what the user chose in the Filter window
+    private int shownYear;
+    private int shownMonth;
+    private boolean hintShowing = true;        // true while the box shows the word "search"
+    private boolean changingSearchBox = false; // true while I change the box from code (so no search is started)
+
+    // ---------------------------------------------------------------- setting up
+
+    // colours the Payment Status column (Paid = green, Pending = orange, Not processed = grey)
+    private static class StatusRenderer extends javax.swing.table.DefaultTableCellRenderer {
+        @Override
+        public java.awt.Component getTableCellRendererComponent(javax.swing.JTable table, Object value,
+                boolean selected, boolean focus, int row, int column) {
+            java.awt.Component c = super.getTableCellRendererComponent(table, value, selected, focus, row, column);
+            if (table.convertColumnIndexToModel(column) == 3 && !selected) {
+                String text = String.valueOf(value);
+                if (PayrollEntry.PAID.equals(text)) {
+                    c.setForeground(new Color(0, 128, 0));
+                } else if (PayrollEntry.PENDING.equals(text)) {
+                    c.setForeground(new Color(214, 120, 0));
+                } else {
+                    c.setForeground(Color.GRAY);
+                }
+            } else if (!selected) {
+                c.setForeground(Color.BLACK);
+            }
+            return c;
+        }
+    }
+
+    // gets the dashboard ready: read-only boxes, the Filter button, the search box and the table
+    private void prepareDashboard() {
+        // the total boxes are only for showing
         javax.swing.JTextField[] boxes = {totalEmployees, totalGrossPayroll, totalDeductions, totalNetPayroll};
         for (javax.swing.JTextField box : boxes) {
             box.setEditable(false);
         }
-        // a table model whose cells cannot be edited
-        DefaultTableModel model = new DefaultTableModel(new String[] {"Employee", "Period", "Gross", "Net"}, 0) {
+        jTable3.setRowHeight(26);
+        jTable3.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        jTable3.setDefaultRenderer(Object.class, new StatusRenderer());
+        jTable3.setToolTipText("Double-click the Bonuses & Incentives cell of an unpaid employee to type a bonus");
+
+        // double-click on the Bonuses & Incentives column = type a bonus for that employee
+        jTable3.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    int row = jTable3.rowAtPoint(e.getPoint());
+                    int column = jTable3.columnAtPoint(e.getPoint());
+                    if (row >= 0 && column == 4) {
+                        editBonus(row);
+                    }
+                }
             }
-        };
-        String gross = Util.money(BigDecimal.ZERO);
-        String deductions = gross;
-        String net = gross;
+        });
+
+        // the Filter button has no handler in the designer, so I add one here
+        filter.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                showFilterWindow();
+            }
+        });
+
+        // search box: the table filters while the user types, and Enter jumps to the first match
+        seachEmployee.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
+            @Override
+            public void insertUpdate(javax.swing.event.DocumentEvent e) {
+                searchChanged();
+            }
+
+            @Override
+            public void removeUpdate(javax.swing.event.DocumentEvent e) {
+                searchChanged();
+            }
+
+            @Override
+            public void changedUpdate(javax.swing.event.DocumentEvent e) {
+                searchChanged();
+            }
+        });
+        seachEmployee.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                jumpToMatch();
+            }
+        });
+        seachEmployee.addFocusListener(new java.awt.event.FocusAdapter() {
+            @Override
+            public void focusGained(java.awt.event.FocusEvent e) {
+                clearSearchHint();
+            }
+
+            @Override
+            public void focusLost(java.awt.event.FocusEvent e) {
+                // if the user left the box empty, put the word "search" back
+                if (seachEmployee.getText().trim().isEmpty()) {
+                    changingSearchBox = true;
+                    seachEmployee.setText(SEARCH_HINT);
+                    changingSearchBox = false;
+                    hintShowing = true;
+                    showTable();
+                }
+            }
+        });
+    }
+
+    // removes the word "search" from the box (only when it is still the hint)
+    private void clearSearchHint() {
+        if (hintShowing) {
+            changingSearchBox = true;
+            seachEmployee.setText("");
+            changingSearchBox = false;
+            hintShowing = false;
+        }
+    }
+
+    private void searchChanged() {
+        if (!changingSearchBox) {
+            hintShowing = false;
+            showTable();
+        }
+    }
+
+    // the text the user typed (empty while the hint is showing)
+    private String searchText() {
+        return hintShowing ? "" : seachEmployee.getText().trim();
+    }
+
+    // ---------------------------------------------------------------- loading data
+
+    // reads the employees and their payroll of the shown month from the database, then fills the screen
+    private void loadDashboard() {
+        allEntries = new ArrayList<>();
+        int activeEmployees = 0;
         try (Connection con = Database.getConnection()) {
-            // 1. how many active employees do I have?
+            // 1. which month must be shown? (the one chosen in the Filter window, or my latest month)
+            int year = options.year;
+            int month = options.month;
+            if (year == 0) {
+                try (PreparedStatement ps = con.prepareStatement("SELECT pay_year, pay_month FROM payroll_records "
+                        + "WHERE owner_id = ? ORDER BY pay_year DESC, pay_month DESC LIMIT 1")) {
+                    ps.setInt(1, Database.currentUserId);
+                    try (ResultSet rs = ps.executeQuery()) {
+                        if (rs.next()) {
+                            year = rs.getInt(1);
+                            month = rs.getInt(2);
+                        }
+                    }
+                }
+                if (year == 0) {
+                    // no payroll yet: show the current month
+                    java.time.LocalDate today = java.time.LocalDate.now();
+                    year = today.getYear();
+                    month = today.getMonthValue();
+                }
+            }
+            shownYear = year;
+            shownMonth = month;
+
+            // 2. my employees with their payroll of that month (LEFT JOIN keeps employees without payroll)
+            String sql = "SELECT e.employee_id, CONCAT(e.first_name, ' ', e.last_name), d.name, p.payroll_id, "
+                    + "p.normal_pay, p.overtime_pay, p.bonus_pay, p.gross_pay, p.total_deductions, p.net_pay, "
+                    + "p.payment_status FROM employees e "
+                    + "JOIN departments d ON d.department_id = e.department_id AND d.owner_id = e.owner_id "
+                    + "LEFT JOIN payroll_records p ON p.owner_id = e.owner_id AND p.employee_id = e.employee_id "
+                    + "AND p.pay_year = ? AND p.pay_month = ? "
+                    + "WHERE e.owner_id = ? AND (e.is_active = 1 OR p.payroll_id IS NOT NULL) ORDER BY e.employee_id";
+            try (PreparedStatement ps = con.prepareStatement(sql)) {
+                ps.setInt(1, year);
+                ps.setInt(2, month);
+                ps.setInt(3, Database.currentUserId);
+                try (ResultSet rs = ps.executeQuery()) {
+                    while (rs.next()) {
+                        int payrollId = rs.getInt(4);
+                        boolean hasPayroll = !rs.wasNull();   // wasNull tells if the LEFT JOIN found nothing
+                        allEntries.add(new PayrollEntry(rs.getInt(1), rs.getString(2), rs.getString(3),
+                                hasPayroll ? payrollId : 0,
+                                hasPayroll ? rs.getBigDecimal(5) : BigDecimal.ZERO,
+                                hasPayroll ? rs.getBigDecimal(6) : BigDecimal.ZERO,
+                                hasPayroll ? rs.getBigDecimal(7) : BigDecimal.ZERO,
+                                hasPayroll ? rs.getBigDecimal(8) : BigDecimal.ZERO,
+                                hasPayroll ? rs.getBigDecimal(9) : BigDecimal.ZERO,
+                                hasPayroll ? rs.getBigDecimal(10) : BigDecimal.ZERO,
+                                hasPayroll ? rs.getString(11) : PayrollEntry.NOT_PROCESSED));
+                    }
+                }
+            }
+
+            // 3. how many active employees do I have?
             try (PreparedStatement ps = con.prepareStatement(
                     "SELECT COUNT(*) FROM employees WHERE owner_id = ? AND is_active = 1")) {
                 ps.setInt(1, Database.currentUserId);
                 try (ResultSet rs = ps.executeQuery()) {
                     rs.next();
-                    totalEmployees.setText(String.valueOf(rs.getInt(1)));
-                }
-            }
-            // 2. totals of my latest payroll month
-            try (PreparedStatement ps = con.prepareStatement("SELECT pay_period, gross_pay, total_deductions, net_pay "
-                    + "FROM v_monthly_summary WHERE owner_id = ? ORDER BY pay_year DESC, pay_month DESC LIMIT 1")) {
-                ps.setInt(1, Database.currentUserId);
-                try (ResultSet rs = ps.executeQuery()) {
-                    if (rs.next()) {
-                        jLabel1.setText("Dashboard - " + rs.getString(1));
-                        gross = Util.money(rs.getBigDecimal(2));
-                        deductions = Util.money(rs.getBigDecimal(3));
-                        net = Util.money(rs.getBigDecimal(4));
-                    }
-                }
-            }
-            // 3. my 10 most recent payroll records for the table
-            try (PreparedStatement ps = con.prepareStatement("SELECT employee_name, pay_period, gross_pay, net_pay "
-                    + "FROM v_payroll_detail WHERE owner_id = ? "
-                    + "ORDER BY pay_year DESC, pay_month DESC, payroll_id DESC LIMIT 10")) {
-                ps.setInt(1, Database.currentUserId);
-                try (ResultSet rs = ps.executeQuery()) {
-                    while (rs.next()) {
-                        model.addRow(new Object[] {rs.getString(1), Util.shortPeriod(rs.getString(2)),
-                            Util.money(rs.getBigDecimal(3)), Util.money(rs.getBigDecimal(4))});
-                    }
+                    activeEmployees = rs.getInt(1);
                 }
             }
         } catch (SQLException ex) {
             Util.dbError(this, ex);
         }
-        totalGrossPayroll.setText(gross);
-        totalDeductions.setText(deductions);
-        totalNetPayroll.setText(net);
-        jTable1.setModel(model);
-        Util.setColumnWidths(jTable1, 180, 80, 110, 110);
+
+        // the four total boxes (money of the shown month)
+        BigDecimal gross = BigDecimal.ZERO;
+        BigDecimal deductions = BigDecimal.ZERO;
+        BigDecimal net = BigDecimal.ZERO;
+        for (PayrollEntry entry : allEntries) {
+            gross = gross.add(entry.getGrossPay());
+            deductions = deductions.add(entry.getDeductions());
+            net = net.add(entry.getNetPay());
+        }
+        totalEmployees.setText(String.valueOf(activeEmployees));
+        totalGrossPayroll.setText(Util.money(gross));
+        totalDeductions.setText(Util.money(deductions));
+        totalNetPayroll.setText(Util.money(net));
+        showTable();
+    }
+
+    // ---------------------------------------------------------- the table
+
+    // Filters, sorts and shows the rows: allEntries -> filters -> sort -> table
+    private void showTable() {
+        // 1. the filters (all of them are EntryFilter objects)
+        List<EntryFilter> filters = new ArrayList<>();
+        filters.add(new EntryFilters.StatusFilter(options.status));
+        filters.add(new EntryFilters.DepartmentFilter(options.department));
+        filters.add(new EntryFilters.SearchFilter(searchText()));
+        List<PayrollEntry> filtered = EntryFilters.apply(allEntries, filters);
+        // 2. the sorting (merge, insertion or selection sort, chosen in the Filter window)
+        shownEntries = TableTools.sort(filtered, options);
+
+        // 3. fill the table
+        DefaultTableModel model = new DefaultTableModel(
+                new String[] {"Employees", "Salary", "Overtime", "Payment Status", "Bonuses & Incentives"}, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        for (PayrollEntry entry : shownEntries) {
+            boolean done = entry.hasPayroll();   // employees without payroll show a dash
+            model.addRow(new Object[] {entry.getName(),
+                done ? Util.money(entry.getNormalPay()) : "-",
+                done ? Util.money(entry.getOvertimePay()) : "-",
+                entry.getStatus(),
+                done ? Util.money(entry.getBonusPay()) : "-"});
+        }
+        jTable3.setModel(model);
+        Util.setColumnWidths(jTable3, 170, 100, 100, 110, 140);
+
+        // a title over the table says which month it is and how many rows are shown (white, the background is red)
+        TitledBorder title = BorderFactory.createTitledBorder("Payroll month: " + Util.monthName(shownMonth) + " "
+                + shownYear + "   -   showing " + shownEntries.size() + " of " + allEntries.size() + " employees");
+        title.setTitleColor(Color.WHITE);
+        jScrollPane3.setBorder(title);
+        filter.setToolTipText(options.isDefault() ? "Filter and sort the table" : "A filter is on (press to change it)");
+    }
+
+    // ---------------------------------------------------------- search
+
+    // Enter in the search box: select the matching row.
+    // A number is an employee id, so I use BINARY search (on a copy sorted by id).
+    // Text is searched with the RECURSIVE linear search.
+    private void jumpToMatch() {
+        String text = searchText();
+        if (text.isEmpty() || shownEntries.isEmpty()) {
+            return;
+        }
+        int row = -1;
+        if (text.matches("\\d{1,9}")) {
+            List<PayrollEntry> byId = TableTools.mergeSort(shownEntries, TableTools.comparatorFor("Employee ID", true));
+            int index = TableTools.binarySearchById(byId, Integer.parseInt(text));
+            if (index >= 0) {
+                row = shownEntries.indexOf(byId.get(index));   // where is this employee in the table?
+            }
+        }
+        if (row < 0) {
+            row = TableTools.recursiveSearch(shownEntries, new EntryFilters.SearchFilter(text), 0);
+        }
+        if (row < 0) {
+            Util.info(this, "No employee found for \"" + text + "\".");
+            return;
+        }
+        // select the row and scroll to it
+        jTable3.setRowSelectionInterval(row, row);
+        jTable3.scrollRectToVisible(jTable3.getCellRect(row, 0, true));
+    }
+
+    // ---------------------------------------------------------- the Filter button
+
+    // opens the Filter window, then saves and uses the new choices
+    private void showFilterWindow() {
+        List<int[]> periods = new ArrayList<>();
+        List<String> departments = new ArrayList<>();
+        try (Connection con = Database.getConnection()) {
+            // the months that have payroll
+            try (PreparedStatement ps = con.prepareStatement("SELECT DISTINCT pay_year, pay_month FROM payroll_records "
+                    + "WHERE owner_id = ? ORDER BY pay_year DESC, pay_month DESC")) {
+                ps.setInt(1, Database.currentUserId);
+                try (ResultSet rs = ps.executeQuery()) {
+                    while (rs.next()) {
+                        periods.add(new int[] {rs.getInt(1), rs.getInt(2)});
+                    }
+                }
+            }
+            // my departments
+            try (PreparedStatement ps = con.prepareStatement("SELECT name FROM departments WHERE owner_id = ? ORDER BY name")) {
+                ps.setInt(1, Database.currentUserId);
+                try (ResultSet rs = ps.executeQuery()) {
+                    while (rs.next()) {
+                        departments.add(rs.getString(1));
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            Util.dbError(this, ex);
+            return;
+        }
+        FilterOptions chosen = FilterDialog.show(this, options, periods, departments);
+        if (chosen != null) {   // null means Cancel
+            options = chosen;
+            options.save(Database.currentUserId);   // remember the choices (saved in a file)
+            loadDashboard();
+        }
+    }
+
+    // ---------------------------------------------------------- bonuses
+
+    // Double-click on a Bonuses & Incentives cell: type the bonus of that employee for the shown month.
+    // A bonus can only be changed while the payment is still Pending.
+    private void editBonus(int row) {
+        PayrollEntry entry = shownEntries.get(row);
+        if (!entry.hasPayroll()) {
+            Util.info(this, "Process the payroll of " + entry.getName() + " first (Payroll Processing screen).");
+            return;
+        }
+        if (PayrollEntry.PAID.equals(entry.getStatus())) {
+            Util.info(this, entry.getName() + " was already paid, so the bonus can not be changed.");
+            return;
+        }
+        String answer = javax.swing.JOptionPane.showInputDialog(this, "Bonus / incentive for " + entry.getName()
+                + " (" + Util.monthName(shownMonth) + " " + shownYear + "), in rand:", Util.plain(entry.getBonusPay()));
+        if (answer == null) {
+            return;   // the user pressed Cancel
+        }
+        BigDecimal bonus;
+        try {
+            bonus = Util.parseDecimal(answer).setScale(2, RoundingMode.HALF_UP);
+        } catch (NumberFormatException ex) {
+            Util.error(this, "The bonus must be a number, e.g. 500.00");
+            return;
+        }
+        if (bonus.signum() < 0 || bonus.compareTo(new BigDecimal("1000000")) > 0) {
+            Util.error(this, "The bonus must be between 0 and 1 000 000.");
+            return;
+        }
+        // new gross and net pay (the database also checks these two sums)
+        BigDecimal gross = entry.getNormalPay().add(entry.getOvertimePay()).add(bonus);
+        BigDecimal net = gross.subtract(entry.getDeductions());
+        if (net.signum() < 0) {
+            Util.error(this, "The deductions are more than the gross pay.");
+            return;
+        }
+        String sql = "UPDATE payroll_records SET bonus_pay = ?, gross_pay = ?, net_pay = ? "
+                + "WHERE payroll_id = ? AND owner_id = ? AND payment_status = 'Pending'";
+        try (Connection con = Database.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setBigDecimal(1, bonus);
+            ps.setBigDecimal(2, gross);
+            ps.setBigDecimal(3, net);
+            ps.setInt(4, entry.getPayrollId());
+            ps.setInt(5, Database.currentUserId);
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            Util.dbError(this, ex);
+            return;
+        }
+        loadDashboard();   // show the new numbers
     }
 
     /**
@@ -402,6 +809,7 @@ public class dashboard extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton filter;
     private javax.swing.JButton home;
     private com.toedter.calendar.JDayChooser jDayChooser1;
     private com.toedter.calendar.JDayChooser jDayChooser2;
@@ -417,7 +825,12 @@ public class dashboard extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
+    private javax.swing.JTable jTable3;
+    private javax.swing.JTextField seachEmployee;
     private javax.swing.JTextField totalDeductions;
     private javax.swing.JTextField totalEmployees;
     private javax.swing.JTextField totalGrossPayroll;
