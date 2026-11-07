@@ -271,6 +271,11 @@ public class Util {
         return -1;
     }
 
+    // true if a box still shows the grey example text from the designer, like "e.g UIF"
+    public static boolean isPlaceholder(String text) {
+        return text != null && text.trim().toLowerCase().startsWith("e.g");
+    }
+
     // makes % and _ normal characters, so they can be used safely inside a LIKE search
     public static String escapeLike(String text) {
         return text.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_");

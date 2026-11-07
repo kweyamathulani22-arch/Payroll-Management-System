@@ -18,8 +18,6 @@ import java.util.regex.Pattern;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-
-
 // This class does all the talking to the MySQL database, so the screens
 // (JFrames) do not need to know how the connection works.
 // IMPORTANT: every query uses currentUserId (the person who logged in),
@@ -322,7 +320,12 @@ public class Database {
                     html.append(Util.money(rs.getBigDecimal("overtime_pay"))).append("</td></tr>");
                     // a bonus row is only shown when there is a bonus
                     if (rs.getBigDecimal("bonus_pay").signum() > 0) {
-                        html.append("<tr><td>Bonus &amp; incentives</td><td align='right'>-</td><td align='right'>-</td>");
+                        String bonusNote = rs.getString("bonus_description");   // what the bonus is for, e.g. Birthday gift
+                        html.append("<tr><td>Bonus &amp; incentives");
+                        if (bonusNote != null && !bonusNote.isEmpty()) {
+                            html.append(" (").append(Util.html(bonusNote)).append(")");
+                        }
+                        html.append("</td><td align='right'>-</td><td align='right'>-</td>");
                         html.append("<td align='right'>").append(Util.money(rs.getBigDecimal("bonus_pay"))).append("</td></tr>");
                     }
                     html.append("<tr bgcolor='#F7F7F7'><td colspan='3'><b>GROSS PAY</b></td><td align='right'><b>");

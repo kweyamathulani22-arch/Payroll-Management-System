@@ -131,6 +131,7 @@
                           <Component id="jLabel3" min="-2" pref="69" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="SearchEmployee" min="-2" pref="133" max="-2" attributes="0"/>
+                          <EmptySpace min="3" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace min="-2" pref="423" max="-2" attributes="0"/>
