@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-
 // Searching and sorting for the dashboard table.
 // These are the algorithms from our lectures (Searching, Sorting and Big O + Recursion),
 // written as generic methods so they work for any list.

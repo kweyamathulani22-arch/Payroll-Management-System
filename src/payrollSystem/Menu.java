@@ -4,6 +4,8 @@
  */
 package payrollSystem;
 
+
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -46,9 +48,10 @@ public class Menu extends javax.swing.JFrame {
         // show the name of the person who is logged in (it said "Administrator" before)
         jLabel1.setText(Database.currentUserName);
 
-        // size of the window when it is not maximised, then maximise it
-        getContentPane().setPreferredSize(new Dimension(950, 600));
-        Util.openWindow(this, true);
+        // Same as the other screens: the menu is a form of a fixed size, in the middle of the window
+        // (grey around it), and the window opens maximised.
+        getContentPane().setPreferredSize(new Dimension(880, 560));
+        Util.fitScreen(this, true);
     }
 
    
@@ -57,6 +60,7 @@ public class Menu extends javax.swing.JFrame {
     private void initComponents() {
 
         employee3 = new javax.swing.JButton();
+        jPanel5 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         payrollProcessing = new javax.swing.JButton();
@@ -71,6 +75,17 @@ public class Menu extends javax.swing.JFrame {
 
         employee3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         employee3.setText("Employees");
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
@@ -315,6 +330,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JButton payrollProcessing;
     private javax.swing.JButton payslip;
     private javax.swing.JButton reports;

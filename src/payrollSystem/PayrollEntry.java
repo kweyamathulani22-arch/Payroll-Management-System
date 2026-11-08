@@ -1,7 +1,5 @@
 package payrollSystem;
 
-
-
 import java.io.Serializable;
 import java.math.BigDecimal;
 

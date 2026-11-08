@@ -3,24 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/DELL/Documents/NetBeansProjects/Payroll_Management_System/Payroll%20Management%20System/src/payrollSystem/employees.java</file>
-            <file>file:/C:/Users/DELL/Documents/NetBeansProjects/Payroll_Management_System/Payroll%20Management%20System/src/payrollSystem/Main.java</file>
-            <file>file:/C:/Users/DELL/Documents/NetBeansProjects/Payroll_Management_System/Payroll%20Management%20System/src/payrollSystem/dashboard.java</file>
-            <file>file:/C:/Users/DELL/Documents/NetBeansProjects/Payroll_Management_System/Payroll%20Management%20System/src/payrollSystem/Menu.java</file>
-            <file>file:/C:/Users/DELL/Documents/NetBeansProjects/Payroll_Management_System/Payroll%20Management%20System/src/payrollSystem/Util.java</file>
-            <file>file:/C:/Users/DELL/Documents/NetBeansProjects/Payroll_Management_System/Payroll%20Management%20System/src/payrollSystem/PayrollProcessing.java</file>
-            <file>file:/C:/Users/DELL/Documents/NetBeansProjects/Payroll_Management_System/Payroll%20Management%20System/src/payrollSystem/Database.java</file>
-            <file>file:/C:/Users/DELL/Documents/NetBeansProjects/Payroll_Management_System/Payroll%20Management%20System/src/payrollSystem/AddEmployee.java</file>
-            <file>file:/C:/Users/DELL/Documents/NetBeansProjects/Payroll_Management_System/Payroll%20Management%20System/src/payrollSystem/PasswordUtil.java</file>
-            <file>file:/C:/Users/DELL/Documents/NetBeansProjects/Payroll_Management_System/Payroll%20Management%20System/src/payrollSystem/Reports.java</file>
-            <file>file:/C:/Users/DELL/Documents/NetBeansProjects/Payroll_Management_System/Payroll%20Management%20System/src/payrollSystem/Setting.java</file>
-            <file>file:/C:/Users/DELL/Documents/NetBeansProjects/Payroll_Management_System/Payroll%20Management%20System/src/payrollSystem/SignUp.java</file>
             <file>file:/C:/Users/DELL/Documents/NetBeansProjects/Payroll_Management_System/Payroll%20Management%20System/src/payrollSystem/login.java</file>
-            <file>file:/C:/Users/DELL/Documents/NetBeansProjects/Payroll_Management_System/Payroll%20Management%20System/src/payrollSystem/payslip.java</file>
-            <file>file:/C:/Users/DELL/Documents/NetBeansProjects/Payroll_Management_System/Payroll%20Management%20System/src/payrollSystem/EntryFilter.java</file>
-            <file>file:/C:/Users/DELL/Documents/NetBeansProjects/Payroll_Management_System/Payroll%20Management%20System/src/payrollSystem/EntryFilters.java</file>
-            <file>file:/C:/Users/DELL/Documents/NetBeansProjects/Payroll_Management_System/Payroll%20Management%20System/src/payrollSystem/FilterDialog.java</file>
-            <file>file:/C:/Users/DELL/Documents/NetBeansProjects/Payroll_Management_System/Payroll%20Management%20System/src/payrollSystem/FilterOptions.java</file>
+            <file>file:/C:/Users/DELL/Documents/NetBeansProjects/Payroll_Management_System/Payroll%20Management%20System/src/payrollSystem/SignUp.java</file>
+            <file>file:/C:/Users/DELL/Documents/NetBeansProjects/Payroll_Management_System/Payroll%20Management%20System/src/payrollSystem/dashboard.java</file>
+            <file>file:/C:/Users/DELL/Documents/NetBeansProjects/Payroll_Management_System/Payroll%20Management%20System/src/payrollSystem/Util.java</file>
+            <file>file:/C:/Users/DELL/Documents/NetBeansProjects/Payroll_Management_System/Payroll%20Management%20System/src/payrollSystem/TableTools.java</file>
+            <file>file:/C:/Users/DELL/Documents/NetBeansProjects/Payroll_Management_System/Payroll%20Management%20System/src/payrollSystem/PayrollProcessing.java</file>
         </group>
     </open-files>
 </project-private>

@@ -26,7 +26,9 @@ public class employees extends javax.swing.JFrame {
         if (!Database.requireLogin(this)) {
             return;
         }
-        loadEmployees("");   // show all my employees
+        // Not Active employees show their status in red
+        jTable1.setDefaultRenderer(Object.class, new StatusRenderer());
+        loadEmployees("");   // show all my Active employees
         // filter the table while the user types in the search box
         SearchEmployee.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
             @Override
@@ -141,17 +143,33 @@ public class employees extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Full Name", "Department", "Job Title", "Gender", "Hourly Rate", "Email", "Phone No.", "Status"
+                "ID", "Full Name", "Department", "Job Title", "Gender", "Hourly Rate", "Email", "Phone No.", "Status", "Employment Contract"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jTable1.setPreferredSize(new java.awt.Dimension(800, 500));
         jTable1.setRowHeight(40);
         jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(1).setPreferredWidth(100);
+            jTable1.getColumnModel().getColumn(2).setPreferredWidth(100);
+            jTable1.getColumnModel().getColumn(5).setPreferredWidth(100);
+            jTable1.getColumnModel().getColumn(7).setPreferredWidth(90);
+            jTable1.getColumnModel().getColumn(9).setPreferredWidth(200);
+        }
 
         delete.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         delete.setForeground(new java.awt.Color(139, 0, 0));
@@ -198,18 +216,13 @@ public class employees extends javax.swing.JFrame {
                 .addGroup(searchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(searchLayout.createSequentialGroup()
                         .addComponent(jLabel2)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(0, 118, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, searchLayout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(SearchEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(SearchEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(423, 423, 423))
-            .addGroup(searchLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 634, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, searchLayout.createSequentialGroup()
                 .addGap(181, 181, 181)
                 .addGroup(searchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -219,6 +232,10 @@ public class employees extends javax.swing.JFrame {
                 .addComponent(delete, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(54, 54, 54))
             .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(searchLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1)
+                .addContainerGap())
         );
         searchLayout.setVerticalGroup(
             searchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -230,7 +247,7 @@ public class employees extends javax.swing.JFrame {
                     .addComponent(SearchEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(searchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -245,8 +262,10 @@ public class employees extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(search, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(search, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -282,11 +301,30 @@ public class employees extends javax.swing.JFrame {
     }//GEN-LAST:event_HomeActionPerformed
 
     // ----------------- my own code (the database part) -----------------
-    // fills the table with MY active employees whose ID, name or department contains the filter text
+    private static final int STATUS_COLUMN = 8;   // the "Status" column of the table
+
+    // shows the word "Not Active" in red
+    private static class StatusRenderer extends javax.swing.table.DefaultTableCellRenderer {
+        @Override
+        public java.awt.Component getTableCellRendererComponent(javax.swing.JTable table, Object value,
+                boolean selected, boolean focus, int row, int column) {
+            java.awt.Component c = super.getTableCellRendererComponent(table, value, selected, focus, row, column);
+            if (!selected) {
+                boolean notActive = "Not Active".equals(table.getValueAt(row, STATUS_COLUMN));
+                c.setForeground(notActive && table.convertColumnIndexToModel(column) == STATUS_COLUMN
+                        ? new java.awt.Color(190, 0, 0) : java.awt.Color.BLACK);
+            }
+            return c;
+        }
+    }
+
+    // Fills the table. With no search text it shows my Active employees.
+    // When the user searches, Not Active employees are found too, and their Status says "Not Active".
     private void loadEmployees(String filter) {
-        // table model that does not allow editing the cells
+        // table model that does not allow editing the cells (the same 10 columns as the designer)
         DefaultTableModel model = new DefaultTableModel(
-                new String[] {"Employee ID", "Full Name", "Department", "Hourly Rate"}, 0) {
+                new String[] {"ID", "Full Name", "Department", "Job Title", "Gender", "Hourly Rate", "Email",
+                    "Phone No.", "Status", "Employment Contract"}, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
@@ -294,32 +332,38 @@ public class employees extends javax.swing.JFrame {
         };
         // % means "anything" in a LIKE search
         String like = "%" + Util.escapeLike(filter) + "%";
-        String sql = "SELECT e.employee_id, CONCAT(e.first_name, ' ', e.last_name), d.name, e.hourly_rate "
+        String statusText = "IF(e.is_active = 1, 'Active', 'Not Active')";
+        String sql = "SELECT e.employee_id, CONCAT(e.first_name, ' ', e.last_name), d.name, e.job_title, e.gender, "
+                + "e.hourly_rate, e.email, e.phone, " + statusText + ", e.employment_contract "
                 + "FROM employees e JOIN departments d ON d.department_id = e.department_id AND d.owner_id = e.owner_id "
-                + "WHERE e.owner_id = ? AND e.is_active = 1 AND (CAST(e.employee_id AS CHAR) LIKE ? "
-                + "OR CONCAT(e.first_name, ' ', e.last_name) LIKE ? OR d.name LIKE ?) "
+                + "WHERE e.owner_id = ? AND (? = '' AND e.is_active = 1 OR ? <> '' AND (CAST(e.employee_id AS CHAR) LIKE ? "
+                + "OR CONCAT(e.first_name, ' ', e.last_name) LIKE ? OR d.name LIKE ? OR e.job_title LIKE ? "
+                + "OR e.email LIKE ? OR e.phone LIKE ? OR " + statusText + " LIKE ?)) "
                 + "ORDER BY e.employee_id";
         try (Connection con = Database.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, Database.currentUserId);   // only MY employees
-            ps.setString(2, like);
-            ps.setString(3, like);
-            ps.setString(4, like);
+            ps.setString(2, filter);                // empty search = Active employees only
+            ps.setString(3, filter);                // a search = Active and Not Active employees
+            for (int i = 4; i <= 10; i++) {
+                ps.setString(i, like);
+            }
             try (ResultSet rs = ps.executeQuery()) {
                 // add one table row for every employee found
                 while (rs.next()) {
-                    model.addRow(new Object[] {rs.getInt(1), rs.getString(2), rs.getString(3),
-                        String.format(Locale.US, Util.currencySymbol + " %.2f", rs.getBigDecimal(4))});
+                    model.addRow(new Object[] {rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
+                        rs.getString(5), String.format(Locale.US, Util.currencySymbol + " %.2f", rs.getBigDecimal(6)),
+                        rs.getString(7), rs.getString(8), rs.getString(9), rs.getString(10)});
                 }
             }
         } catch (SQLException ex) {
             Util.dbError(this, ex);
         }
         jTable1.setModel(model);
-        Util.setColumnWidths(jTable1, 90, 200, 140, 90);   // wider name column so names are not cut
+        Util.setColumnWidths(jTable1, 45, 130, 100, 110, 60, 80, 170, 90, 75, 120);
     }
 
-    // Deletes the selected employee. If the employee already has payroll records the row cannot be
-    // deleted (the old payslips need it), so I only switch the employee to inactive (hidden).
+    // The Delete button never removes an employee from the database.
+    // It only makes the employee Not Active, so the details and the old payslips stay in the company database.
     private void deleteSelectedEmployee() {
         int row = jTable1.getSelectedRow();   // -1 means no row is selected
         if (row < 0) {
@@ -328,31 +372,21 @@ public class employees extends javax.swing.JFrame {
         }
         int id = (Integer) jTable1.getValueAt(row, 0);
         String name = String.valueOf(jTable1.getValueAt(row, 1));
-        // ask before deleting
-        if (!Util.confirm(this, "Delete " + name + " (ID " + id + ")?")) {
+        if ("Not Active".equals(jTable1.getValueAt(row, STATUS_COLUMN))) {
+            Util.info(this, name + " is already Not Active.");
             return;
         }
-        try (Connection con = Database.getConnection()) {
-            try (PreparedStatement ps = con.prepareStatement(
-                    "DELETE FROM employees WHERE owner_id = ? AND employee_id = ?")) {
-                ps.setInt(1, Database.currentUserId);
-                ps.setInt(2, id);
-                ps.executeUpdate();
-                Util.info(this, name + " was deleted.");
-            } catch (SQLException fk) {
-                // 1451 = the row is used by another table (a foreign key), so we cannot delete it
-                if (fk.getErrorCode() != 1451 && !"23000".equals(fk.getSQLState())) {
-                    throw fk;   // some other problem, let the outer catch show it
-                }
-                try (PreparedStatement ps = con.prepareStatement(
-                        "UPDATE employees SET is_active = 0 WHERE owner_id = ? AND employee_id = ?")) {
-                    ps.setInt(1, Database.currentUserId);
-                    ps.setInt(2, id);
-                    ps.executeUpdate();
-                    Util.info(this, name + " has payroll records, so the employee was made inactive "
-                            + "(hidden from the list) instead of deleted.");
-                }
-            }
+        // ask before changing
+        if (!Util.confirm(this, "Make " + name + " (ID " + id + ") Not Active?\n"
+                + "The details stay in the company database.")) {
+            return;
+        }
+        try (Connection con = Database.getConnection();
+             PreparedStatement ps = con.prepareStatement("UPDATE employees SET is_active = 0 WHERE owner_id = ? AND employee_id = ?")) {
+            ps.setInt(1, Database.currentUserId);
+            ps.setInt(2, id);
+            ps.executeUpdate();
+            Util.info(this, name + " is now Not Active.\nSearch for the name to find the employee again.");
         } catch (SQLException ex) {
             Util.dbError(this, ex);
         }

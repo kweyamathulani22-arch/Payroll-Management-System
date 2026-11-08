@@ -4,6 +4,8 @@
  */
 package payrollSystem;
 
+
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -94,6 +96,10 @@ public class PayrollProcessing extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         PayEmployee = new javax.swing.JButton();
+        bonusIncentives = new javax.swing.JLabel();
+        bonusIncentiveField = new javax.swing.JTextField();
+        amountOfbonusLabel = new javax.swing.JLabel();
+        amountOfbonusIncentivesFiels = new javax.swing.JTextField();
         jPanel5 = new javax.swing.JPanel();
 
         jButton1.setText("jButton1");
@@ -184,6 +190,7 @@ public class PayrollProcessing extends javax.swing.JFrame {
 
         manualEnteDeductions.setText("Manually entered deductions");
 
+        manulEntDeductions.setText("e.g UIF");
         manulEntDeductions.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 manulEntDeductionsActionPerformed(evt);
@@ -295,11 +302,11 @@ public class PayrollProcessing extends javax.swing.JFrame {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 535, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 10, Short.MAX_VALUE)
+            .addGap(0, 12, Short.MAX_VALUE)
         );
 
         jPanel4.setBackground(new java.awt.Color(139, 0, 0));
@@ -332,6 +339,14 @@ public class PayrollProcessing extends javax.swing.JFrame {
         PayEmployee.setForeground(new java.awt.Color(139, 0, 0));
         PayEmployee.setText("Pay Employee");
 
+        bonusIncentives.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        bonusIncentives.setText("Bonus & Incentives");
+
+        bonusIncentiveField.setText("e.g Birthday Gift");
+
+        amountOfbonusLabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        amountOfbonusLabel.setText("Amount");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -340,103 +355,114 @@ public class PayrollProcessing extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
                     .addComponent(jLabel2)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addComponent(jLabel9)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel4)
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addContainerGap()
-                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel5)
-                                            .addComponent(payrollMonth3, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                .addGap(23, 23, 23)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                .addComponent(serachEmployee, javax.swing.GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE)
-                                                .addComponent(jTextField2))
-                                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                                .addGap(37, 37, 37)
-                                                .addComponent(payRollLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addComponent(payrollMonth, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(39, 39, 39)
-                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(payrollMonth2, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(payRollLabel)))
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGap(27, 27, 27)
-                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(overtimeWorked))
-                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                                .addGap(40, 40, 40)
-                                                .addComponent(jLabel8))
-                                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                                .addGap(18, 18, 18)
-                                                .addComponent(overtimeRate, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(manulEntDeductions, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addContainerGap()
-                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel6)
-                                            .addComponent(normalHoursWorked, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(manualEnteDeductions))))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(amountTextFiels, javax.swing.GroupLayout.DEFAULT_SIZE, 84, Short.MAX_VALUE))
-                                .addGap(33, 33, 33)
-                                .addComponent(addDeduction))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel10)
-                                    .addComponent(jLabel12))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(normalPay, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
-                                    .addComponent(grossPay))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel13)
-                                    .addComponent(jLabel11))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(overtimePay, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
-                                    .addComponent(totalDeduction)))
-                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGap(106, 106, 106)
-                                        .addComponent(CalculatePayroll))
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGap(30, 30, 30)
-                                        .addComponent(PayEmployee)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(savePayRoll)))
-                                .addGap(39, 39, 39)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addComponent(jLabel14)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(netpay, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addComponent(generatePayslip)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(clearForm))))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(CalculatePayroll)
+                            .addComponent(PayEmployee)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel12))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(manulEntDeductions, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(190, 190, 190)
+                                .addComponent(addDeduction)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel9)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(bonusIncentives))
+                    .addComponent(bonusIncentiveField, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(1, 1, 1))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addGap(154, 154, 154)
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(savePayRoll)
+                                        .addComponent(jLabel14))
+                                    .addGap(15, 15, 15)
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                            .addComponent(generatePayslip)
+                                            .addGap(16, 16, 16)
+                                            .addComponent(clearForm))
+                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                            .addComponent(netpay, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(87, 87, 87))))
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel4)
+                                        .addComponent(jLabel5)
+                                        .addComponent(payrollMonth3, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGap(23, 23, 23)
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(serachEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                                    .addGap(37, 37, 37)
+                                                    .addComponent(payRollLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addComponent(payrollMonth, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGap(39, 39, 39)
+                                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(payRollLabel)
+                                                .addComponent(payrollMonth2)))
+                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                            .addGap(27, 27, 27)
+                                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                .addComponent(jLabel7)
+                                                .addComponent(overtimeWorked, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                                    .addGap(40, 40, 40)
+                                                    .addComponent(jLabel8))
+                                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                                    .addGap(18, 18, 18)
+                                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                            .addComponent(amountOfbonusLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                            .addComponent(amountOfbonusIncentivesFiels, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
+                                                            .addComponent(overtimeRate))
+                                                        .addComponent(amountTextFiels, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                                .addComponent(jLabel6)
+                                .addComponent(normalHoursWorked, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(grossPay, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                            .addComponent(jLabel10)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(normalPay, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                            .addGap(18, 18, 18)
+                                            .addComponent(jLabel13)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(totalDeduction, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                            .addGap(26, 26, 26)
+                                            .addComponent(jLabel11)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(overtimePay, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addGap(41, 41, 41))
+                        .addComponent(manualEnteDeductions, javax.swing.GroupLayout.Alignment.LEADING))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -452,7 +478,6 @@ public class PayrollProcessing extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
-                .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(payRollLabel1)
@@ -473,6 +498,14 @@ public class PayrollProcessing extends javax.swing.JFrame {
                         .addComponent(overtimeWorked, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(overtimeRate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(normalHoursWorked, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(26, 26, 26)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(bonusIncentives)
+                    .addComponent(amountOfbonusLabel))
+                .addGap(5, 5, 5)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(bonusIncentiveField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(amountOfbonusIncentivesFiels, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(manualEnteDeductions)
@@ -482,44 +515,36 @@ public class PayrollProcessing extends javax.swing.JFrame {
                     .addComponent(manulEntDeductions, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(amountTextFiels, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(addDeduction))
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(15, 15, 15)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(1, 1, 1)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(normalPay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel11)
-                        .addComponent(overtimePay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addComponent(jLabel12))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(grossPay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel13)
-                            .addComponent(totalDeduction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(18, 18, 18)
+                    .addComponent(normalPay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel11)
+                    .addComponent(overtimePay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel12)
+                    .addComponent(grossPay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel13)
+                    .addComponent(totalDeduction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(CalculatePayroll)
                     .addComponent(jLabel14)
                     .addComponent(netpay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(32, 32, 32)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(PayEmployee)
                     .addComponent(savePayRoll)
                     .addComponent(generatePayslip)
-                    .addComponent(clearForm)
-                    .addComponent(PayEmployee))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(clearForm))
+                .addContainerGap())
         );
 
         jPanel5.setBackground(new java.awt.Color(139, 0, 0));
@@ -686,7 +711,8 @@ public class PayrollProcessing extends javax.swing.JFrame {
     // the values of the last calculation
     private BigDecimal calcNormalHours, calcOvertimeHours, calcMultiplier;
     private BigDecimal calcNormalPay, calcOvertimePay, calcGross, calcDeductions, calcNet;
-    private BigDecimal calcBonus = BigDecimal.ZERO;   // bonus typed on the dashboard (already in the gross pay)
+    private BigDecimal calcBonus = BigDecimal.ZERO;   // the bonus (already in the gross pay)
+    private String calcBonusNote = "";                // what the bonus is for
     private int calcMonth, calcYear;
     private int savedPayrollId = -1;     // id of the saved payroll record (-1 = not saved yet)
     private String savedSignature = "";  // remembers what was saved, so we notice if the user changes it later
@@ -713,10 +739,27 @@ public class PayrollProcessing extends javax.swing.JFrame {
             Util.dbError(this, ex);
         }
         // when the user clicks in the Amount box the old text is selected, so typing replaces it
-        amountTextFiels.addFocusListener(new java.awt.event.FocusAdapter() {
+        // when the user clicks in a box that shows example text (like "e.g UIF"), the text is selected so typing replaces it
+        javax.swing.JTextField[] exampleBoxes = {amountTextFiels, manulEntDeductions, bonusIncentiveField, amountOfbonusIncentivesFiels};
+        for (final javax.swing.JTextField box : exampleBoxes) {
+            box.addFocusListener(new java.awt.event.FocusAdapter() {
+                @Override
+                public void focusGained(java.awt.event.FocusEvent e) {
+                    box.selectAll();
+                }
+            });
+        }
+        // Enter in the bonus boxes: description -> amount -> calculate
+        bonusIncentiveField.addActionListener(new java.awt.event.ActionListener() {
             @Override
-            public void focusGained(java.awt.event.FocusEvent e) {
-                amountTextFiels.selectAll();
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                amountOfbonusIncentivesFiels.requestFocusInWindow();
+            }
+        });
+        amountOfbonusIncentivesFiels.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                calculate();
             }
         });
     }
@@ -731,7 +774,14 @@ public class PayrollProcessing extends javax.swing.JFrame {
         try {
             Database.EmployeeInfo found = Database.chooseEmployee(this, text, true);
             if (found == null) {
-                Util.error(this, "No active employee found for \"" + text + "\".");
+                // maybe the employee exists but is Not Active
+                Database.EmployeeInfo old = Database.chooseEmployee(this, text, false);
+                if (old != null) {
+                    Util.error(this, old.name + " is Not Active, so payroll can not be processed.\n"
+                            + "Open Add Employee, search the employee, set Status to Active and press Update.");
+                } else {
+                    Util.error(this, "No employee found for \"" + text + "\".");
+                }
                 return;
             }
             // remember the employee and show the details in the boxes
@@ -747,7 +797,7 @@ public class PayrollProcessing extends javax.swing.JFrame {
     // adds the typed deduction (description + amount) to the list
     private void addDeductionToList() {
         String description = manulEntDeductions.getText().trim();
-        if (description.isEmpty() || description.length() > 100) {
+        if (description.isEmpty() || Util.isPlaceholder(description) || description.length() > 100) {
             Util.error(this, "Type what the deduction is for (up to 100 characters), e.g. PAYE tax.");
             return;
         }
@@ -790,7 +840,7 @@ public class PayrollProcessing extends javax.swing.JFrame {
             return false;
         }
         // a deduction that was typed but not added would be forgotten, so warn
-        if (!manulEntDeductions.getText().trim().isEmpty()) {
+        if (!manulEntDeductions.getText().trim().isEmpty() && !Util.isPlaceholder(manulEntDeductions.getText())) {
             Util.error(this, "You typed a deduction but did not add it. Click \"Add deduction\" or clear the box.");
             return false;
         }
@@ -835,16 +885,41 @@ public class PayrollProcessing extends javax.swing.JFrame {
         BigDecimal rate = selected.rate;
         BigDecimal normal = rate.multiply(normalHours).setScale(2, RoundingMode.HALF_UP);
         BigDecimal overtime = rate.multiply(multiplier).multiply(overtimeHours).setScale(2, RoundingMode.HALF_UP);
-        // if a bonus was typed on the dashboard for this month, it is part of the gross pay
+        // The bonus: typed in the Bonus boxes on this screen. If the amount box is empty, a bonus that was
+        // typed on the dashboard for this month is kept. The bonus is part of the gross pay.
         BigDecimal bonus = BigDecimal.ZERO;
+        String bonusNote = "";
+        Existing old;
         try {
-            Existing old = findExisting(year, month);
-            if (old != null) {
-                bonus = old.bonus;
-            }
+            old = findExisting(year, month);
         } catch (SQLException ex) {
             Util.dbError(this, ex);
             return false;
+        }
+        String bonusText = amountOfbonusIncentivesFiels.getText().trim();
+        if (!bonusText.isEmpty() && !Util.isPlaceholder(bonusText)) {
+            try {
+                bonus = Util.parseDecimal(bonusText).setScale(2, RoundingMode.HALF_UP);
+            } catch (NumberFormatException ex) {
+                Util.error(this, "The bonus amount must be a number, e.g. 500.00");
+                return false;
+            }
+            if (bonus.signum() < 0 || bonus.compareTo(new BigDecimal("1000000")) > 0) {
+                Util.error(this, "The bonus must be between 0 and 1 000 000.");
+                return false;
+            }
+            String note = bonusIncentiveField.getText().trim();
+            if (note.length() > 100) {
+                Util.error(this, "Please type a shorter bonus description (up to 100 characters).");
+                return false;
+            }
+            bonusNote = (note.isEmpty() || Util.isPlaceholder(note)) ? "Bonus" : note;
+            if (bonus.signum() == 0) {
+                bonusNote = "";
+            }
+        } else if (old != null) {
+            bonus = old.bonus;
+            bonusNote = old.bonusNote == null ? "" : old.bonusNote;
         }
         BigDecimal gross = normal.add(overtime).add(bonus);
         BigDecimal deductions = BigDecimal.ZERO;
@@ -868,6 +943,7 @@ public class PayrollProcessing extends javax.swing.JFrame {
         calcOvertimePay = overtime;
         calcGross = gross;
         calcBonus = bonus;
+        calcBonusNote = bonusNote;
         calcDeductions = deductions;
         calcNet = net;
         normalPay.setText(Util.plain(normal));
@@ -882,7 +958,7 @@ public class PayrollProcessing extends javax.swing.JFrame {
     // a text that describes exactly what is on the screen, used to see if it was saved already
     private String signature() {
         return selected.id + "|" + calcYear + "|" + calcMonth + "|" + calcNormalHours + "|" + calcOvertimeHours
-                + "|" + calcMultiplier + "|" + calcBonus + "|" + dedNames + dedAmounts;
+                + "|" + calcMultiplier + "|" + calcBonus + "|" + calcBonusNote + "|" + dedNames + dedAmounts;
     }
 
     // saves the payroll record and its deductions (all or nothing, using a transaction)
@@ -918,8 +994,8 @@ public class PayrollProcessing extends javax.swing.JFrame {
                 // 2. save the payroll record (it starts as Pending, the Pay Employee button makes it Paid)
                 int payrollId;
                 String sql = "INSERT INTO payroll_records (owner_id, employee_id, pay_year, pay_month, hourly_rate, "
-                        + "normal_hours, overtime_hours, overtime_multiplier, normal_pay, overtime_pay, bonus_pay, gross_pay, "
-                        + "total_deductions, net_pay) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                        + "normal_hours, overtime_hours, overtime_multiplier, normal_pay, overtime_pay, bonus_pay, bonus_description, gross_pay, "
+                        + "total_deductions, net_pay) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 try (PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
                     ps.setInt(1, Database.currentUserId);
                     ps.setInt(2, selected.id);
@@ -932,9 +1008,10 @@ public class PayrollProcessing extends javax.swing.JFrame {
                     ps.setBigDecimal(9, calcNormalPay);
                     ps.setBigDecimal(10, calcOvertimePay);
                     ps.setBigDecimal(11, calcBonus);
-                    ps.setBigDecimal(12, calcGross);
-                    ps.setBigDecimal(13, calcDeductions);
-                    ps.setBigDecimal(14, calcNet);
+                    ps.setString(12, calcBonusNote.isEmpty() ? null : calcBonusNote);
+                    ps.setBigDecimal(13, calcGross);
+                    ps.setBigDecimal(14, calcDeductions);
+                    ps.setBigDecimal(15, calcNet);
                     ps.executeUpdate();
                     // get the id of the new record
                     try (ResultSet keys = ps.getGeneratedKeys()) {
@@ -974,11 +1051,12 @@ public class PayrollProcessing extends javax.swing.JFrame {
         String status;     // Pending or Paid
         String paidAt;     // the date and time of the payment (null while Pending)
         BigDecimal bonus;
+        String bonusNote;  // what the bonus is for
     }
 
     // looks for a payroll record of the selected employee in this month (gives null if there is none)
     private Existing findExisting(Connection con, int year, int month) throws SQLException {
-        String sql = "SELECT payroll_id, payment_status, paid_at, bonus_pay FROM payroll_records "
+        String sql = "SELECT payroll_id, payment_status, paid_at, bonus_pay, bonus_description FROM payroll_records "
                 + "WHERE owner_id = ? AND employee_id = ? AND pay_year = ? AND pay_month = ?";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, Database.currentUserId);
@@ -993,6 +1071,7 @@ public class PayrollProcessing extends javax.swing.JFrame {
                     String paid = rs.getString(3);
                     e.paidAt = paid == null ? null : (paid.length() > 16 ? paid.substring(0, 16) : paid);
                     e.bonus = rs.getBigDecimal(4);
+                    e.bonusNote = rs.getString(5);
                     return e;
                 }
             }
@@ -1135,6 +1214,9 @@ public class PayrollProcessing extends javax.swing.JFrame {
         savedPayrollId = -1;
         savedSignature = "";
         calcBonus = BigDecimal.ZERO;
+        calcBonusNote = "";
+        bonusIncentiveField.setText("");
+        amountOfbonusIncentivesFiels.setText("");
         dedNames.clear();
         dedAmounts.clear();
         serachEmployee.setText("");
@@ -1190,7 +1272,11 @@ public class PayrollProcessing extends javax.swing.JFrame {
     private javax.swing.JButton Home;
     private javax.swing.JButton PayEmployee;
     private javax.swing.JButton addDeduction;
+    private javax.swing.JTextField amountOfbonusIncentivesFiels;
+    private javax.swing.JLabel amountOfbonusLabel;
     private javax.swing.JTextField amountTextFiels;
+    private javax.swing.JTextField bonusIncentiveField;
+    private javax.swing.JLabel bonusIncentives;
     private javax.swing.JButton clearForm;
     private javax.swing.JButton generatePayslip;
     private javax.swing.JTextField grossPay;

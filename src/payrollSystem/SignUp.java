@@ -4,7 +4,6 @@
  */
 package payrollSystem;
 
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,7 +23,8 @@ public class SignUp extends javax.swing.JFrame {
         initComponents();
         defaultEchoChar = passwordSignUp.getEchoChar();   // remember the normal dot so we can put it back
         // keep the form in the middle of the window
-        Util.fitScreen(this, false);
+        Util.fitScreen(this, true);
+        
     }
 
     /**

@@ -76,6 +76,14 @@ public class dashboard extends javax.swing.JFrame {
         jTable3 = new javax.swing.JTable();
         filter = new javax.swing.JButton();
         seachEmployee = new javax.swing.JTextField();
+        jPanel3 = new javax.swing.JPanel();
+        activeEmployeesLabel = new javax.swing.JLabel();
+        activeEmployees = new javax.swing.JTextField();
+        jPanel7 = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
+        newHires = new javax.swing.JTextField();
+        selectedFilter = new javax.swing.JTextField();
+        slectedFilterLabel = new javax.swing.JLabel();
 
         jMenu1.setText("jMenu1");
 
@@ -144,7 +152,7 @@ public class dashboard extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
                     .addComponent(totalEmployees, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(87, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -178,7 +186,7 @@ public class dashboard extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
                     .addComponent(totalGrossPayroll, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(99, Short.MAX_VALUE))
+                .addContainerGap(59, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -214,7 +222,7 @@ public class dashboard extends javax.swing.JFrame {
                         .addGap(6, 6, 6)
                         .addComponent(totalNetPayroll, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel5))
-                .addContainerGap(97, Short.MAX_VALUE))
+                .addContainerGap(57, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -248,7 +256,7 @@ public class dashboard extends javax.swing.JFrame {
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
                     .addComponent(totalDeductions, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(109, Short.MAX_VALUE))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -257,7 +265,7 @@ public class dashboard extends javax.swing.JFrame {
                 .addComponent(jLabel4)
                 .addGap(24, 24, 24)
                 .addComponent(totalDeductions, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(34, Short.MAX_VALUE))
         );
 
         jTable3.setModel(new javax.swing.table.DefaultTableModel(
@@ -282,6 +290,7 @@ public class dashboard extends javax.swing.JFrame {
         jScrollPane3.setViewportView(jTable3);
 
         filter.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        filter.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/FilterIcon2.png"))); // NOI18N
         filter.setText("Filter");
 
         seachEmployee.setText("search");
@@ -290,6 +299,63 @@ public class dashboard extends javax.swing.JFrame {
                 seachEmployeeMouseClicked(evt);
             }
         });
+
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+
+        activeEmployeesLabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        activeEmployeesLabel.setForeground(new java.awt.Color(153, 153, 153));
+        activeEmployeesLabel.setText("Active Employees");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(59, 59, 59)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(activeEmployeesLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(activeEmployees))
+                .addContainerGap(46, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(activeEmployeesLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addComponent(activeEmployees, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18))
+        );
+
+        jPanel7.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel6.setForeground(new java.awt.Color(153, 153, 153));
+        jLabel6.setText("New Hires");
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGap(57, 57, 57)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(newHires, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel6)
+                .addGap(18, 18, 18)
+                .addComponent(newHires, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(38, Short.MAX_VALUE))
+        );
+
+        slectedFilterLabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        slectedFilterLabel.setForeground(new java.awt.Color(255, 255, 255));
+        slectedFilterLabel.setText("Selected Filter");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -300,25 +366,32 @@ public class dashboard extends javax.swing.JFrame {
                     .addComponent(home)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(seachEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(filter))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGap(40, 40, 40)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(207, 207, 207)))
+                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(54, 54, 54)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(38, 38, 38))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 744, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 744, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(seachEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(slectedFilterLabel)
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(selectedFilter)
+                            .addComponent(filter, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE))))
                 .addContainerGap(15, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -327,21 +400,27 @@ public class dashboard extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(home)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(home)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(12, 12, 12)
-                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(45, 45, 45)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(filter)
+                .addGap(1, 1, 1)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(filter)
-                    .addComponent(seachEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(seachEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(selectedFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(slectedFilterLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -427,7 +506,8 @@ public class dashboard extends javax.swing.JFrame {
     // gets the dashboard ready: read-only boxes, the Filter button, the search box and the table
     private void prepareDashboard() {
         // the total boxes are only for showing
-        javax.swing.JTextField[] boxes = {totalEmployees, totalGrossPayroll, totalDeductions, totalNetPayroll};
+        javax.swing.JTextField[] boxes = {totalEmployees, totalGrossPayroll, totalDeductions, totalNetPayroll,
+            activeEmployees, newHires, selectedFilter};
         for (javax.swing.JTextField box : boxes) {
             box.setEditable(false);
         }
@@ -528,7 +608,9 @@ public class dashboard extends javax.swing.JFrame {
     // reads the employees and their payroll of the shown month from the database, then fills the screen
     private void loadDashboard() {
         allEntries = new ArrayList<>();
-        int activeEmployees = 0;
+        int allCount = 0;      // every employee of my company (also Not Active ones)
+        int activeCount = 0;   // employees that are Active
+        int hiredCount = 0;    // employees added in the shown month
         try (Connection con = Database.getConnection()) {
             // 1. which month must be shown? (the one chosen in the Filter window, or my latest month)
             int year = options.year;
@@ -583,13 +665,17 @@ public class dashboard extends javax.swing.JFrame {
                 }
             }
 
-            // 3. how many active employees do I have?
-            try (PreparedStatement ps = con.prepareStatement(
-                    "SELECT COUNT(*) FROM employees WHERE owner_id = ? AND is_active = 1")) {
-                ps.setInt(1, Database.currentUserId);
+            // 3. count my employees: all, Active, and the ones added in the shown month
+            try (PreparedStatement ps = con.prepareStatement("SELECT COUNT(*), COALESCE(SUM(is_active = 1), 0), "
+                    + "COALESCE(SUM(YEAR(created_at) = ? AND MONTH(created_at) = ?), 0) FROM employees WHERE owner_id = ?")) {
+                ps.setInt(1, year);
+                ps.setInt(2, month);
+                ps.setInt(3, Database.currentUserId);
                 try (ResultSet rs = ps.executeQuery()) {
                     rs.next();
-                    activeEmployees = rs.getInt(1);
+                    allCount = rs.getInt(1);
+                    activeCount = rs.getInt(2);
+                    hiredCount = rs.getInt(3);
                 }
             }
         } catch (SQLException ex) {
@@ -605,7 +691,10 @@ public class dashboard extends javax.swing.JFrame {
             deductions = deductions.add(entry.getDeductions());
             net = net.add(entry.getNetPay());
         }
-        totalEmployees.setText(String.valueOf(activeEmployees));
+        totalEmployees.setText(String.valueOf(allCount));        // everybody who is in the company database
+        activeEmployees.setText(String.valueOf(activeCount));
+        newHires.setText(String.valueOf(hiredCount));
+        newHires.setToolTipText("Employees added in the shown month");
         totalGrossPayroll.setText(Util.money(gross));
         totalDeductions.setText(Util.money(deductions));
         totalNetPayroll.setText(Util.money(net));
@@ -650,6 +739,10 @@ public class dashboard extends javax.swing.JFrame {
         title.setTitleColor(Color.WHITE);
         jScrollPane3.setBorder(title);
         filter.setToolTipText(options.isDefault() ? "Filter and sort the table" : "A filter is on (press to change it)");
+        String description = describeFilter();
+        selectedFilter.setText(description);
+        selectedFilter.setToolTipText(description);
+        selectedFilter.setCaretPosition(0);
     }
 
     // ---------------------------------------------------------- search
@@ -718,6 +811,30 @@ public class dashboard extends javax.swing.JFrame {
             options.save(Database.currentUserId);   // remember the choices (saved in a file)
             loadDashboard();
         }
+    }
+
+    // a short text that says what the table is filtered and sorted on (shown in the Selected Filter box)
+    private String describeFilter() {
+        StringBuilder text = new StringBuilder();
+        if (!"All".equals(options.status)) {
+            text.append("Status: ").append(options.status).append(", ");
+        }
+        if (!"All".equals(options.department)) {
+            text.append("Department: ").append(options.department).append(", ");
+        }
+        if (options.year > 0) {
+            text.append("Month: ").append(Util.monthName(options.month)).append(" ").append(options.year).append(", ");
+        }
+        if (!searchText().isEmpty()) {
+            text.append("Search: ").append(searchText()).append(", ");
+        }
+        if (!"Name".equals(options.sortBy) || !options.ascending) {
+            text.append("Sorted by ").append(options.sortBy).append(options.ascending ? " (up)" : " (down)").append(", ");
+        }
+        if (text.length() == 0) {
+            return "None";
+        }
+        return text.substring(0, text.length() - 2);   // remove the last ", "
     }
 
     // ---------------------------------------------------------- bonuses
@@ -809,6 +926,8 @@ public class dashboard extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField activeEmployees;
+    private javax.swing.JLabel activeEmployeesLabel;
     private javax.swing.JButton filter;
     private javax.swing.JButton home;
     private com.toedter.calendar.JDayChooser jDayChooser1;
@@ -818,19 +937,25 @@ public class dashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
+    private javax.swing.JTextField newHires;
     private javax.swing.JTextField seachEmployee;
+    private javax.swing.JTextField selectedFilter;
+    private javax.swing.JLabel slectedFilterLabel;
     private javax.swing.JTextField totalDeductions;
     private javax.swing.JTextField totalEmployees;
     private javax.swing.JTextField totalGrossPayroll;
